@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProEventos.API.Data.Interfaces;
 using ProEventos.API.Models;
 
 namespace ProEventos.API.Controllers
@@ -12,47 +13,31 @@ namespace ProEventos.API.Controllers
     [Route("api/[controller]")]
     public class EventoController : ControllerBase
     {
-        public IEnumerable<Evento> _evento = new Evento[] {
-            new Evento(){
-                EventoId = 1,
-                Tema = "Angular 11 e .NET 5",
-                Local = "Belo Horizonte",
-                Lote = "1º Lote",
-                QtsPessoas = 250,
-                DataEvento = DateTime.Now.AddDays(2).ToString(),
-                ImageURL = "foto.img"
-            },
-            new Evento(){
-                EventoId = 2,
-                Tema = "Angular e suas novidades",
-                Local = "São Paulo",
-                Lote = "2º Lote",
-                QtsPessoas = 350,
-                DataEvento = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy"),
-                ImageURL = "foto1.img"
-            }
-        };
+        private readonly IEventoRepository _eventoRepository;
 
-        public EventoController()
+        public EventoController(IEventoRepository eventoRepository)
         {
+            _eventoRepository = eventoRepository;
         }
 
         [HttpGet]
         public IEnumerable<Evento> Get()
         {
-            return _evento;
+            return _eventoRepository.GetAllEventos();
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Evento> GetById(int id)
+        public Evento GetById(int id)
         {
-            return _evento.Where(e => e.EventoId == id);
+           return _eventoRepository.GetById(id);
+           
         }
 
         [HttpPost]
-        public string Post()
+        public Evento Post(Evento evento)
         {
-            return "Exemplo de Post";
+            _eventoRepository.AddEvento(evento);
+            return evento;
         }
 
         [HttpPut("{id}")]
@@ -62,9 +47,9 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public string Delete(int id)
+        public void Delete(int id)
         {
-            return $"Exemplo de Delete com id: {id}";
+            _eventoRepository.DeleteEvento(id);
         }
     }
 }

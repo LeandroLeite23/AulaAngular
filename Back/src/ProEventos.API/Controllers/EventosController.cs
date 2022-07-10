@@ -11,11 +11,11 @@ namespace ProEventos.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EventoController : ControllerBase
+    public class EventosController : ControllerBase
     {
         private readonly IEventoRepository _eventoRepository;
 
-        public EventoController(IEventoRepository eventoRepository)
+        public EventosController(IEventoRepository eventoRepository)
         {
             _eventoRepository = eventoRepository;
         }

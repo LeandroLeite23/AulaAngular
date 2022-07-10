@@ -30,20 +30,18 @@ namespace ProEventos.API.Controllers
         public Evento GetById(int id)
         {
            return _eventoRepository.GetById(id);
-           
         }
 
         [HttpPost]
         public Evento Post(Evento evento)
         {
-            _eventoRepository.AddEvento(evento);
-            return evento;
+            return _eventoRepository.AddEvento(evento);
         }
 
-        [HttpPut("{id}")]
-        public string Put(int id)
+        [HttpPut]
+        public Evento Put(Evento evento)
         {
-            return $"Exemplo de Put com id: {id}";
+            return _eventoRepository.EditEvento(evento);
         }
 
         [HttpDelete("{id}")]

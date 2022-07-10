@@ -6,6 +6,7 @@ namespace ProEventos.API.Data.Interfaces
     public interface IEventoRepository
     {
         Evento AddEvento(Evento evento);
+        Evento EditEvento(Evento evento);
         void DeleteEvento(int id);
         IEnumerable<Evento> GetAllEventos();
         Evento GetById(int id);
